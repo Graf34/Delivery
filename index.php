@@ -8,7 +8,7 @@ $link = mysqli_connect($host, $user, $password, $database)
 or die("Ошибка " . mysqli_error($link));
 
 
-$queryDate = "SELECT update_date FROM cities_table";
+$queryDate = "SELECT update_date FROM cities_table";//Получение даты обнавления списка
 $resultDate = mysqli_query($link, $queryDate) or die("Ошибка " . mysqli_error($link));
 
 $rows = mysqli_num_rows($resultDate); // количество полученных строк
@@ -24,11 +24,10 @@ if ($rows == 0 or $row[0] != date('o' . '-' . 'm' . '-' . 'd')) {
 
     $obj = json_decode($result);
 
-    $query = "TRUNCATE TABLE `cities_table`";//
+    $query = "TRUNCATE TABLE `cities_table`";//Очистить таблицу
     $result = mysqli_query($link, $query) or die("Ошибка " . mysqli_error($link));
+    //Заполнение новыми данными
     for ($x = 0; $x < count($obj); $x++) {
-
-
         $query = "INSERT INTO `cities_table` (`id`, `city`, `update_date`) VALUES (NULL, '$obj[$x]', CURRENT_DATE());";
         $result = mysqli_query($link, $query) or die("Ошибка " . mysqli_error($link));
     }
